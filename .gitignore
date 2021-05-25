@@ -35,3 +35,8 @@
 *.swo
 *.o
 glife
+
+# Me
+googletest
+test
+build
