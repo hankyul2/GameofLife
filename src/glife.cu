@@ -20,6 +20,7 @@ extern "C++" {
 // TODO: YOU MAY NEED TO USE IT OR CREATE MORE
 __device__ int getNeighbors(int* grid, int tot_rows, int tot_cols,
         int row, int col) {
+    int numOfNeighbors = 0;
     return numOfNeighbors;
 }
 

@@ -9,6 +9,15 @@
 #define DEAD 0
 #define DISPLAY 0
 #define USECPSEC 1000000ULL
+#define MAX_THREADS 10000
+
+struct myargs {
+  int rows;
+  int cols;
+  int gens;
+  int t_id;
+  pthread_barrier_t * barrier;
+};
 
 // HINT: YOU CAN ADD MORE MEMBERS IF YOU NEED
 class GameOfLifeGrid {
@@ -16,10 +25,10 @@ public:
 	GameOfLifeGrid(int rows, int cols, int gen);
 	
 	void next();
-	void next(const int from, const int to);
+	void next(myargs* args);
 	
 	int isLive(int rows, int cols) { return (m_Grid[rows][cols] ? LIVE : DEAD); }
-	int getNumOfNeighbors(int rows, int cols);
+	int getNumOfNeighbors(int row, int col);
 	
 	void dead(int rows, int cols) { m_Temp[rows][cols] = 0; }
 	void live(int rows, int cols) { m_Temp[rows][cols] = 1; }
@@ -37,6 +46,10 @@ public:
 	int getRows() { return m_Rows; }
 	int getGens() { return m_Generations; }
 
+	bool canGoLive(int rows, int cols, int n);
+	bool isOoB(int row, int col);
+	void updateGrid(int row, int col) { m_Grid[row][col] = m_Temp[row][col]; }
+
   int** getGrid() { return m_Grid; }
 
 private:
@@ -47,6 +60,5 @@ private:
 	int m_Generations;
 
 };
-uint64_t runCUDA(int rows, int cols, int gen, 
-             GameOfLifeGrid* g_GameOfLifeGrid, int display);
+//uint64_t runCUDA(int rows, int cols, int gen, GameOfLifeGrid* g_GameOfLifeGrid, int display);
 uint64_t dtime_usec(uint64_t start);
