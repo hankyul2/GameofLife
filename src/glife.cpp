@@ -93,7 +93,6 @@ int gameOfLife(int argc, char* argv[])
   ifstream inputFile;
   int input_row, input_col, display;
   uint64_t difft, cuda_difft;
-  pthread_t *threadID;
 
   inputFile.open(argv[1], ifstream::in);
 
@@ -125,8 +124,7 @@ int gameOfLife(int argc, char* argv[])
   // TODO: YOU NEED TO IMPLMENT THE SINGLE THREAD, PTHREAD, AND CUDA
   if (nprocs == 0) {
     // Running on GPU
-    // cuda_difft = runCUDA(rows, cols, gen, g_GameOfLifeGrid, display);
-    cuda_difft = 1;
+    cuda_difft = runCUDA(rows, cols, gen, g_GameOfLifeGrid, display);
   } else if (nprocs == 1) {
     // Running a single thread
     singleThread(rows, cols, gen);
@@ -135,7 +133,6 @@ int gameOfLife(int argc, char* argv[])
     
     make_index(rows, cols, nprocs);
     
-    int status;
     pthread_barrier_t barrier;
     pthread_t thread_group[nprocs];
     pthread_barrier_init(&barrier, NULL, nprocs);
@@ -187,10 +184,10 @@ void *workerThread(void *arg)
 {
   myargs *args = (myargs *) arg;
   int n = args->gens;
-  // while(g_GameOfLifeGrid->decGen()){
   while(n--){
     g_GameOfLifeGrid->next(args);
   }
+  return NULL;
 }
 
 // HINT: YOU MAY NEED TO FILL OUT BELOW FUNCTIONS OR CREATE NEW FUNCTIONS

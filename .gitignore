@@ -40,3 +40,5 @@ glife
 googletest
 test
 build
+.vscode
+.pdf

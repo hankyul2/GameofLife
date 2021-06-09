@@ -40,6 +40,7 @@ public:
 	void dump();
 	void dumpIndex();
 	int* getRowAddr(int row) { return m_Grid[row]; }
+	int* getRowAddrTemp(int row) { return m_Temp[row]; }
 	int* getAddr(int ind) { return m_Grid[0]+ind; }
 
 	int getCols() { return m_Cols; }
@@ -60,5 +61,5 @@ private:
 	int m_Generations;
 
 };
-//uint64_t runCUDA(int rows, int cols, int gen, GameOfLifeGrid* g_GameOfLifeGrid, int display);
+uint64_t runCUDA(int rows, int cols, int gen, GameOfLifeGrid* g_GameOfLifeGrid, int display);
 uint64_t dtime_usec(uint64_t start);
